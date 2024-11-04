@@ -6,20 +6,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Notification {
     @Id
     private String id;
-    private String userId; // ID of the user to notify
-    private String message;
-    private String type; // e.g., EMAIL, SMS
-    private boolean isSent; // Status of the notification
-
-    // Constructors, Getters, and Setters
-   /* public Notification(String userId, String message, String type) {
-        this.userId = userId;
-        this.message = message;
-        this.type = type;
-        this.isSent = false; // Initially, it is not sent
-    }*/
-
-    // Getters and Setters...
+    private String ticketNumber;
+    // emailId of the user to notify
+    private String senderEmailId;
+    private String body;
+    // e.g., EMAIL, SMS
+    private String emailType;
+    // Status of the notification
+    private boolean isSent;
 
     public String getId() {
         return id;
@@ -29,28 +23,36 @@ public class Notification {
         this.id = id;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getTicketNumber() {
+        return ticketNumber;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setTicketNumber(String ticketNumber) {
+        this.ticketNumber = ticketNumber;
     }
 
-    public String getMessage() {
-        return message;
+    public String getSenderEmailId() {
+        return senderEmailId;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setSenderEmailId(String senderEmailId) {
+        this.senderEmailId = senderEmailId;
     }
 
-    public String getType() {
-        return type;
+    public String getBody() {
+        return body;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public String getEmailType() {
+        return emailType;
+    }
+
+    public void setEmailType(String emailType) {
+        this.emailType = emailType;
     }
 
     public boolean isSent() {

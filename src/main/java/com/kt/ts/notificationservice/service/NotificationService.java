@@ -22,32 +22,32 @@ public class NotificationService {
     }
 
     public void sendNotification(Notification notification) {
-        if ("EMAIL".equals(notification.getType()) && !notification.isSent()) {
-            String emailId = notification.getUserId();
+        if ("EMAIL".equals(notification.getEmailType()) && !notification.isSent()) {
+            String emailId = notification.getSenderEmailId();
             int index = emailId.indexOf('@');
             String modifiedEmail = (index != -1) ? emailId.substring(0, index) : emailId;
             String message = String.format(
                     "Dear %s,\n\n" +
                             "We hope this message finds you well. We would like to inform you about the following:\n\n" +
                             "*Notification Title:* SERVICE TICKET NOTIFICATION\n\n" +
-                            "*Details:* A new service ticket has been created, and immediate action is required.\n\n" +
+                            "*Details:* A new service ticket " + notification.getTicketNumber() + " has been created, and immediate action is required.\n\n" +
                             "*Action Required:* Please review and approve if the details are correct.\n\n" +
                             "Thank you for your attention to this matter. If you have any questions, please feel free to reach out.\n\n" +
                             "Regards,\n" +
                             "IT Service Desk\n",
                     modifiedEmail
             );
-            sendEmail(notification.getUserId(), message);
+            sendEmail(notification.getSenderEmailId(), message, notification.getTicketNumber());
             notification.setSent(true);
             notificationRepository.save(notification);
         }
         // Additional logic for other types (e.g., SMS)
     }
 
-    private void sendEmail(String to, String message) {
+    private void sendEmail(String to, String message, String ticketNumber) {
         SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(to);
-        email.setSubject("SERVICE TICKET");
+        email.setSubject("SERVICE TICKET " + ticketNumber);
         email.setText(message);
         emailSender.send(email);
     }
@@ -56,7 +56,7 @@ public class NotificationService {
         return notificationRepository.findAll();
     }
 
-    public Notification getNotificationById(String id){
+    public Notification getNotificationById(String id) {
         return notificationRepository.getNotificationById(id);
     }
 }
